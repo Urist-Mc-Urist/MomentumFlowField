@@ -106,7 +106,7 @@ The system uses continuous wrapping for both position and field lookups, allowin
     Determines how much recent actions are emphasized when reinforcing successful paths. Higher values create stronger immediate learning from recent success.
 - Field Strength:
     How strongly the learned vector field influences movement. Balances between learned patterns and reactive behavior.
-### Dynamic Parameterr
+### Dynamic Parameters
 - Noise Level:    
     Random perturbations that prevent the system from getting stuck in local patterns and encourage exploration.
 - Drag:
