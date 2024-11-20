@@ -39,7 +39,11 @@ export const updateSystemStateWithBall = (
   params,
   gridSize,
   gameState,
+  gameHeight,
 ) => {
+  console.log("Gameheight: ", gameHeight)
+  // Default paddle influence parameter
+
   // Wrap grid coordinates for field influence calculation
   const gridX = Math.floor(wrapCoordinate(position[0], gridSize));
   const gridY = Math.floor(wrapCoordinate(position[1], gridSize));
@@ -48,19 +52,37 @@ export const updateSystemStateWithBall = (
   let fieldForce = vectorField[gridX][gridY];
   
   // Add the ball force mirrored
-
   let ballForce = [0, 0];
-  if (params.mirror){
+  if (params.mirror) {
     ballForce = [
       gameState.ballVelY * params.ballInfluence,
       gameState.ballVelX * params.ballInfluence,
-    ]
-  }else{
+    ];
+  } else {
     ballForce = [
       gameState.ballVelX * params.ballInfluence,
       gameState.ballVelY * params.ballInfluence,
-    ]
+    ];
   }
+
+  // Calculate paddle vertical position relative to center
+  const paddleCenterY = gameState.playerPaddleY + 60 / 2; //hardcode paddle height
+
+  const velocityFactor = paddleCenterY - (gameHeight / 4)
+  const paddleVelScaling = (gameHeight / 4) - 60 /2
+
+  const scaledPaddleVelFactor = (velocityFactor) / paddleVelScaling 
+
+  console.log("Center Y: ", paddleCenterY)
+ //console.log("Offset: ", paddleOffset)
+  console.log("velocity factor: ", scaledPaddleVelFactor)
+
+  var paddleForce = [scaledPaddleVelFactor * params.paddleInfluence, 0]
+  if (params.mirrorPaddle) { 
+    paddleForce = [0, scaledPaddleVelFactor * params.paddleInfluence];
+  }
+
+  console.log(paddleForce)
 
   // Add random noise
   const noise = [
@@ -68,10 +90,10 @@ export const updateSystemStateWithBall = (
     (Math.random() - 0.5) * params.noise
   ];
 
-  // Calculate new velocity
+  // Calculate new velocity including paddle influence
   const newVelocity = [
-    (velocity[0] + fieldForce[0] * params.fieldStrength + ballForce[0] + noise[0]) * params.drag,
-    (velocity[1] + fieldForce[1] * params.fieldStrength + ballForce[1] + noise[1]) * params.drag
+    (velocity[0] + fieldForce[0] * params.fieldStrength + ballForce[0] + paddleForce[0] + noise[0]) * params.drag,
+    (velocity[1] + fieldForce[1] * params.fieldStrength + ballForce[1] + paddleForce[1] + noise[1]) * params.drag
   ];
 
   // Calculate new position with wrapping

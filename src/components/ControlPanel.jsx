@@ -9,7 +9,7 @@ export const ControlPanel = ({ params, setParams }) => {
         <Slider 
           value={[params.learningRate]}
           min={0}
-          max={10}
+          max={1}
           step={0.01}
           onValueChange={([v]) => setParams(p => ({...p, learningRate: v}))}
         />
@@ -82,6 +82,16 @@ export const ControlPanel = ({ params, setParams }) => {
           max={0.1}
           step={0.001}
           onValueChange={([v]) => setParams(p => ({...p, ballInfluence: v}))}
+        />
+      </div>
+      <div className="space-y-2">
+        <p className="text-sm font-medium">Paddle Position Influence Factor: {params.paddleInfluence.toFixed(3)}</p>
+        <Slider 
+          value={[params.paddleInfluence]}
+          min={0.01}
+          max={1}
+          step={0.001}
+          onValueChange={([v]) => setParams(p => ({...p, paddleInfluence: v}))}
         />
       </div>
       <div className="space-y-2">

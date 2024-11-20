@@ -19,18 +19,20 @@ const MFFPong = () => {
 
   const [params, setParams] = useState({
     baseSpeed: 5,
-    learningRate: 10,
-    negLearningRate: 0.05,
+    learningRate: 1,
+    negLearningRate: 1,
     decayFactor: 0.99,
-    ballInfluence: 0.03,
-    noise: 0.4,
+    ballInfluence: 0.015,
+    noise: 0.25,
     fieldStrength: 0.85,
-    drag: 0.7,
+    drag: 0.75,
     paddleSpeed: 5,
     gameInterval: 1,
     warmup: true,
     warmupAutoReward: 0.001,
-    mirror: false
+    paddleInfluence: 0.1,
+    mirror: false,
+    mirrorPaddle: true
   });
 
   const {
@@ -110,24 +112,9 @@ const MFFPong = () => {
               cellSize={cellSize}
               warmup={params.warmup}
               mirror={params.mirror}
+              mirrorPaddle={params.mirrorPaddle}
             />
             <div className="flex justify-between mt-2">
-              <Button
-                variant="outline"
-                onClick={() => applyReward(true, params)}
-                className="bg-green-50 hover:bg-green-100"
-              >
-                <ThumbsUp className="w-4 h-4 mr-2" />
-                Reward
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => applyReward(false, params)}
-                className="bg-red-50 hover:bg-red-100"
-              >
-                <ThumbsDown className="w-4 h-4 mr-2" />
-                Punish
-              </Button>
               <Button
                 variant="outline"
                 onClick={() => setParams(p => ({...p, warmup: !p.warmup}))}
@@ -146,7 +133,17 @@ const MFFPong = () => {
                    p-2 rounded-sm transition-colors duration-300`
                 }
               >
-                Mirror ball input
+                Mirror ball
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setParams(p => ({...p, mirrorPaddle: !p.mirrorPaddle}))}
+                className={`bg-blue-50 hover:bg-orange-100 border-blue-50 border-solid
+                  ${params.mirror ? 'border-width-2' : 'border-width-0'}
+                   p-2 rounded-sm transition-colors duration-300`
+                }
+              >
+                Mirror paddle
               </Button>
             </div>
           </div>

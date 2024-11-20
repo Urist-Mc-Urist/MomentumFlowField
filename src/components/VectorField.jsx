@@ -10,7 +10,8 @@ export const VectorField = ({
   gridSize = 64,  // Updated default to 64
   cellSize = 10,
   warmup,
-  mirror
+  mirror,
+  mirrorPaddle
 }) => {
   const canvasRef = useRef(null);
 
@@ -175,23 +176,29 @@ export const VectorField = ({
 
       // Draw behavior state
       ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-      ctx.fillRect(10, gridSize * cellSize - 40, 120, 30);
+      ctx.fillRect(10, gridSize * cellSize - 40, 100, 30);
       ctx.fillStyle = '#ffffff';
-      ctx.font = '16px Inter, system-ui, sans-serif';
+      ctx.font = '12px Inter, system-ui, sans-serif';
       const formattedBehavior = Number(getCurrentBehavior()).toFixed(3);
       ctx.fillText(`State: ${formattedBehavior}`, 15, gridSize * cellSize - 20);
 
       ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-      ctx.fillRect(150, gridSize * cellSize - 40, 125, 30);
+      ctx.fillRect(120, gridSize * cellSize - 40, 100, 30);
       ctx.fillStyle = '#ffffff';
-      ctx.font = '16px Inter, system-ui, sans-serif';
-      ctx.fillText(`Warmup: ${warmup}`, 155, gridSize * cellSize - 20);
+      ctx.font = '12px Inter, system-ui, sans-serif';
+      ctx.fillText(`Warmup: ${warmup}`, 125, gridSize * cellSize - 20);
 
       ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-      ctx.fillRect(300, gridSize * cellSize - 40, 125, 30);
+      ctx.fillRect(230, gridSize * cellSize - 40, 110, 30);
       ctx.fillStyle = '#ffffff';
-      ctx.font = '16px Inter, system-ui, sans-serif';
-      ctx.fillText(`Mirror: ${mirror}`, 305, gridSize * cellSize - 20);
+      ctx.font = '12px Inter, system-ui, sans-serif';
+      ctx.fillText(`Mirror ball: ${mirror}`, 235, gridSize * cellSize - 20);
+
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+      ctx.fillRect(350, gridSize * cellSize - 40, 125, 30);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '12px Inter, system-ui, sans-serif';
+      ctx.fillText(`Mirror paddle: ${mirrorPaddle}`, 355, gridSize * cellSize - 20);
     };
     
     draw();
